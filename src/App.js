@@ -36,10 +36,16 @@ class App extends Component {
   saveToDB = () => {
 
     let text = this.state.editorState.getCurrentContent();
-    let data = JSON.stringify({
+    /*let data = JSON.stringify({
       content: convertToRaw(text),
-    });
-    console.log(data);
+    });*/
+    let exp = convertToRaw(text);
+    let content = exp.blocks[0].text;
+    let data = {
+      id: 2,
+      content: content
+    };
+    //console.log(exp.blocks[0].text);
     axios.post(URL, data)
       .then(msg => console.log(msg))
       .catch(err => console.log(err));
