@@ -1,18 +1,46 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-
+import { Editor, EditorState, convertToRaw, convertFromRaw } from 'draft-js';
+import 'draft-js/dist/Draft.css';
 class App extends Component {
+  state = {
+    editorState: EditorState.createEmpty(),
+  }
+
+  componentDidMount() {
+    const content = window.localStorage.getItem('content');
+    let result;
+    if (content) {
+      result = EditorState.createWithContent(convertFromRaw(JSON.parse(content)));
+      this.setState({ editorState: result });
+    }
+    else {
+      result = EditorState.createEmpty();
+      this.setState({ editorState: result });
+    }
+  }
+
+  handleChange = (editorState) => {
+    const contentState = editorState.getCurrentContent();
+    console.log('content state', convertToRaw(contentState));
+    this.setState({ editorState });
+  }
+
+  saveContent = () => {
+    const content = this.state.editorState.getCurrentContent();
+    window.localStorage.setItem('content', JSON.stringify(convertToRaw(content)));
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div id="content">
+      <div className="editor">
+      <Editor
+        onChange={this.handleChange}
+        editorState={this.state.editorState}
+      />
+     
+      </div>
+       <button onClick={this.saveContent}>Press</button>
       </div>
     );
   }
