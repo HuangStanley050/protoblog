@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Editor, EditorState, convertToRaw, convertFromRaw } from 'draft-js';
+import axios from "axios";
 import 'draft-js/dist/Draft.css';
+let URL = "https://protoblog-7431f.firebaseio.com/post.json";
+
 class App extends Component {
   state = {
     editorState: EditorState.createEmpty(),
@@ -30,6 +33,19 @@ class App extends Component {
     window.localStorage.setItem('content', JSON.stringify(convertToRaw(content)));
   }
 
+  saveToDB = () => {
+
+    let text = this.state.editorState.getCurrentContent();
+    let data = JSON.stringify({
+      content: convertToRaw(text),
+    });
+    console.log(data);
+    axios.post(URL, data)
+      .then(msg => console.log(msg))
+      .catch(err => console.log(err));
+
+  }
+
   render() {
     return (
       <div id="content">
@@ -41,6 +57,7 @@ class App extends Component {
      
       </div>
        <button onClick={this.saveContent}>Press</button>
+       <button onClick={this.saveToDB}>Save to Database</button>
       </div>
     );
   }
