@@ -39,10 +39,11 @@ class App extends Component {
     /*let data = JSON.stringify({
       content: convertToRaw(text),
     });*/
+    let id = new Date().toLocaleString();
     let exp = convertToRaw(text);
     let content = exp.blocks[0].text;
     let data = {
-      id: 2,
+      id: id,
       content: content
     };
     //console.log(exp.blocks[0].text);
