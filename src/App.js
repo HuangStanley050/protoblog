@@ -46,11 +46,11 @@ class App extends Component {
       id: id,
       content: content
     };
-    //console.log(exp.blocks[0].text);
-    axios.post(URL, data)
+    console.log(content);
+    /*axios.post(URL, data)
       .then(msg => console.log(msg))
       .catch(err => console.log(err));
-
+    */
   }
 
   render() {
