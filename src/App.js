@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Editor, EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import axios from "axios";
 import 'draft-js/dist/Draft.css';
-let URL = "https://protoblog-7431f.firebaseio.com/post.json";
+let URL = "https://protoblog-7431f.firebaseio.com/posts.json";
 
 class App extends Component {
   state = {
@@ -41,16 +41,16 @@ class App extends Component {
     });*/
     let id = new Date().toLocaleString();
     let exp = convertToRaw(text);
-    let content = exp.blocks[0].text;
+    let content = exp.blocks;
     let data = {
       id: id,
       content: content
     };
     console.log(content);
-    /*axios.post(URL, data)
+    axios.post(URL, data)
       .then(msg => console.log(msg))
       .catch(err => console.log(err));
-    */
+
   }
 
   render() {
